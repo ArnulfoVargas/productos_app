@@ -49,9 +49,17 @@ class _LoginForm extends StatelessWidget {
       child: Column(
         children: [
           TextFormField(
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+
             autocorrect: false,
             keyboardType: TextInputType.emailAddress,
             decoration: FormInputDecorator.getInputDecoration(icon: Icons.alternate_email_outlined, labelText: "Email", hintText: "test-emai@gmail.com"),
+            validator: (value) {
+              String pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+              RegExp regExp  = RegExp(pattern);
+
+              return regExp.hasMatch(value ?? "") ? null : "Email no valido";
+            },
           ),
 
           const SizedBox(height: 30,),
