@@ -69,7 +69,7 @@ class _PurpleBox extends StatelessWidget {
       Color.fromRGBO(63, 63, 156, 1),
       Color.fromRGBO(90, 70, 178, 1)
     ]),
-    borderRadius: BorderRadius.only(bottomLeft: Radius.circular(150), bottomRight: Radius.circular(150))
+    borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10))
   );
 }
 
