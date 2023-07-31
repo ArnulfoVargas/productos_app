@@ -42,7 +42,7 @@ class _Icon extends StatelessWidget {
 }
 
 class _PurpleBox extends StatelessWidget {
-  const _PurpleBox({super.key});
+  const _PurpleBox();
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +74,7 @@ class _PurpleBox extends StatelessWidget {
 }
 
 class _Bubble extends StatelessWidget {
-  const _Bubble({super.key});
+  const _Bubble();
 
   @override
   Widget build(BuildContext context) {
