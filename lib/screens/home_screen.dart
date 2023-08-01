@@ -20,22 +20,26 @@ class HomeScreen extends StatelessWidget {
 
     if (productService.isLoading) return const LoadingScreen();
 
-    final List<Product> products = productService.products;
+    List<Product> products = productService.products;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Productos"),
       ),
 
-      body: ListView.builder(
-        physics: const BouncingScrollPhysics(),
-        itemCount: products.length,
-        itemBuilder: (context, index) =>  GestureDetector(
-          onTap: (() {
-            Navigator.pushNamed(context, ProductScreen.name);
-            productService.selectedProduct = products[index].copy();
-          }),
-          child: ProductCard(product: products[index],)
-          ),
+      body: RefreshIndicator(
+        onRefresh: (() async {await productService.loadProducts();
+                              products = productService.products;}),
+        child: ListView.builder(
+          itemCount: products.length,
+          itemBuilder: (context, index) =>  GestureDetector(
+            onTap: (() {
+              Navigator.pushNamed(context, ProductScreen.name);
+              productService.selectedProduct = products[index].copy();
+            }),
+            child: ProductCard(product: products[index],)
+            ),
+        ),
       ),
 
       floatingActionButton: FloatingActionButton(

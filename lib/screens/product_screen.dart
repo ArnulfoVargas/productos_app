@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
+import 'package:image_picker/image_picker.dart';
+
 import 'package:productos_app/providers/providers.dart';
 import 'package:productos_app/Themes/themes.dart';
 import 'package:productos_app/UI/input_decoration.dart';
@@ -62,10 +64,19 @@ class _ProductScreenWidget extends StatelessWidget {
                   right: 40,
                   top: 55,
                   child: IconButton(
-                    onPressed: () {
-                      //TODO camara o galeria
+                    onPressed: () async {
+                      final picker = ImagePicker();
+                      
+                      // * Se puede modificar el source TODO
+                      final XFile? pickFile = await picker.pickImage(source: ImageSource.gallery);
+                      if (pickFile == null){
+                        return;
+                      }
+
+                      productService.updateSelectedImagePath(pickFile.path);
+                                 
                     }, 
-                    icon: const Icon(Icons.photo_camera_outlined, size: 35, color: Colors.white,),
+                    icon: const Icon(Icons.file_upload_outlined, size: 35, color: Colors.white,),
                   )
                 ),
               ],
@@ -78,12 +89,22 @@ class _ProductScreenWidget extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-                              onPressed: () async {
+                              onPressed: productService.isSaving 
+                              ? null 
+                              : () async {
                                 if (!productFormProvider.isValidForm()) return;
+
+                                String? url = await productService.uploadImage();
+
+                                if (url != null){
+                                  productFormProvider.product.picture = url;
+                                }
 
                                 await productService.saveOrCreateProducts(product);
                               }, 
-                              child: const Icon(Icons.save_outlined),),
+                              child: productService.isSaving
+                                    ? const CircularProgressIndicator(color: Colors.white,)
+                                    : const Icon(Icons.save_outlined),),
     );
   }
 }
