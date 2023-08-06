@@ -21,7 +21,7 @@ class HomeScreen extends StatelessWidget {
 
     if (productService.isLoading) return const LoadingScreen();
 
-    List<Product> products = productService.products;
+    final List<Product> products = productService.products;
 
     return Scaffold(
       appBar: AppBar(
@@ -37,7 +37,9 @@ class HomeScreen extends StatelessWidget {
 
       body: RefreshIndicator(
         onRefresh: (() async {await productService.loadProducts();
-                              products = productService.products;}),
+                              products.clear();
+                              products.addAll(productService.products);
+                             }),
         child: ListView.builder(
           itemCount: products.length,
           itemBuilder: (context, index) =>  GestureDetector(

@@ -136,7 +136,7 @@ class _LoginForm extends StatelessWidget {
                 Navigator.pushReplacementNamed(context, HomeScreen.name);
               }else {
                 loginForm.isLoading = false;
-                print("Error"); // TODO Mostrar error
+                NotificationService.showSnackBar(message: "Usuario o contraseña no son correctos", color:Colors.redAccent);
               }
             }
           )

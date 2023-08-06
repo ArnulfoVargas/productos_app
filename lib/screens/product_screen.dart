@@ -141,6 +141,7 @@ class _ProductScreenWidget extends StatelessWidget {
                                 }
 
                                 await productService.saveOrCreateProducts(product);
+                                NotificationService.showSnackBar(message: "El producto se ha guardado", color: Colors.indigo);
                               }, 
                               child: productService.isSaving
                                     ? const CircularProgressIndicator(color: Colors.white,)
