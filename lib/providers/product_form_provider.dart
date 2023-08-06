@@ -16,4 +16,6 @@ class ProductFormProvider extends ChangeNotifier{
   bool isValidForm(){
     return formKey.currentState?.validate() ??  false ;
   }
+
+  void updateScreen() => notifyListeners();
 }

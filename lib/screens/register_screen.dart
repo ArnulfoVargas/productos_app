@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:productos_app/Themes/themes.dart';
 import 'package:provider/provider.dart';
 
-import 'package:productos_app/services/services.dart';
-import 'package:productos_app/providers/login_form_provider.dart';
+import 'package:productos_app/providers/providers.dart';
 import 'package:productos_app/screens/screens.dart';
 import 'package:productos_app/widgets/widgets.dart';
 import 'package:productos_app/UI/input_decoration.dart';
+import "package:productos_app/services/services.dart";
 
-import '../Themes/themes.dart';
+class RegisterScreen extends StatelessWidget {
 
-class LoginScreen extends StatelessWidget {
+  static const String name = "Register";
 
-  static const String name = "Login";
-
-  const LoginScreen({Key? key}) : super(key: key);
+  const RegisterScreen({Key? key}) : super(key: key);
   
   @override
   Widget build(BuildContext context) {
@@ -28,7 +27,7 @@ class LoginScreen extends StatelessWidget {
                   children: [
                     const SizedBox(height: 10,),
 
-                    Text("Login", textAlign: TextAlign.center, style: Theme.of(context).textTheme.headline2!.copyWith(fontSize:30 ),),
+                    Text("Crear nueva cuenta", textAlign: TextAlign.center, style: Theme.of(context).textTheme.headline2!.copyWith(fontSize:30 ),),
 
                     const SizedBox(height: 30,),
 
@@ -42,9 +41,9 @@ class LoginScreen extends StatelessWidget {
               const SizedBox(height: 50,),
 
               TextButton(
-                onPressed: (() =>  Navigator.pushReplacementNamed(context, RegisterScreen.name)), 
-
-                child: const Text("Crear una nueva cuenta", textAlign: TextAlign.center, style: CustomTheme.buttonTextStyle,),
+                onPressed: (() => Navigator.pushReplacementNamed(context, LoginScreen.name)), 
+                child:
+                 const Text("¿Ya tienes una cuenta?", textAlign: TextAlign.center, style: CustomTheme.buttonTextStyle,),
                 ),
 
               const SizedBox(height: 50,),
@@ -129,14 +128,14 @@ class _LoginForm extends StatelessWidget {
               loginForm.isLoading = true;
 
               //Todo cambiar por el sign in
-              final String? err = await service.login(email: loginForm.email, password: loginForm.password);
+              final String? err = await service.createUser(email: loginForm.email, password: loginForm.password);
 
               if (err == null)              
               {
                 Navigator.pushReplacementNamed(context, HomeScreen.name);
               }else {
-                loginForm.isLoading = false;
                 print("Error"); // TODO Mostrar error
+                loginForm.isLoading = true;
               }
             }
           )

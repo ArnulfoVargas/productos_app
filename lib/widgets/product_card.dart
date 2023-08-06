@@ -27,7 +27,7 @@ class ProductCard extends StatelessWidget {
             _PriceBox(price: product.price,),
 
             if (!product.available)
-              const _Avaibility()
+              const _Unavailable()
           ],
         ),
       ),
@@ -47,9 +47,9 @@ class ProductCard extends StatelessWidget {
   }
 }
 
-class _Avaibility extends StatelessWidget {
+class _Unavailable extends StatelessWidget {
   
-  const _Avaibility({
+  const _Unavailable({
     Key? key,
   }) : super(key: key);
 

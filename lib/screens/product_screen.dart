@@ -29,10 +29,12 @@ class ProductScreen extends StatelessWidget {
 }
 
 class _ProductScreenWidget extends StatelessWidget {
-  const _ProductScreenWidget({
+  _ProductScreenWidget({
     Key? key,
     required this.product,
   }) : super(key: key);
+
+  bool _showOptions = false;
 
   final Product product;
 
@@ -41,6 +43,8 @@ class _ProductScreenWidget extends StatelessWidget {
 
     final ProductFormProvider productFormProvider = Provider.of<ProductFormProvider>(context);
     final ProductService productService = Provider.of<ProductService>(context);
+
+    void updateScreen() => productFormProvider.updateScreen();
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -63,20 +67,56 @@ class _ProductScreenWidget extends StatelessWidget {
                 Positioned(
                   right: 40,
                   top: 55,
-                  child: IconButton(
+                  child: !_showOptions
+                  ? IconButton(
                     onPressed: () async {
-                      final picker = ImagePicker();
-                      
-                      // * Se puede modificar el source TODO
-                      final XFile? pickFile = await picker.pickImage(source: ImageSource.gallery);
-                      if (pickFile == null){
-                        return;
-                      }
+                      _showOptions = true;
 
-                      productService.updateSelectedImagePath(pickFile.path);
-                                 
+                      updateScreen();
                     }, 
-                    icon: const Icon(Icons.file_upload_outlined, size: 35, color: Colors.white,),
+                    icon: const Icon(Icons.image_outlined, size: 35, color: Colors.white,),
+                  )
+
+                  : Row(
+                    children: [
+                        IconButton(
+                        onPressed: () async {
+                          _showOptions = false;
+
+                          final picker = ImagePicker();
+
+                          final XFile? pickFile = await picker.pickImage(source: ImageSource.gallery);
+                          if (pickFile == null){ updateScreen(); return; }
+
+                          productService.updateSelectedImagePath(pickFile.path);
+                        }, 
+                        icon: const Icon(Icons.folder_open_outlined, size: 35, color: Colors.white,)),
+
+                        const SizedBox(width: 10,),
+
+                        IconButton(
+                        onPressed: () async {
+                          _showOptions = false;
+
+                          final picker = ImagePicker();
+
+                          final XFile? pickFile = await picker.pickImage(source: ImageSource.camera);
+                          if (pickFile == null){ updateScreen(); return; }
+
+                          productService.updateSelectedImagePath(pickFile.path);
+                        }, 
+                        icon: const Icon(Icons.camera_alt_outlined, size: 35, color: Colors.white,)),
+
+                        const SizedBox(width: 10,),
+
+                        IconButton(
+                          onPressed: () {
+                            _showOptions = false;
+
+                            updateScreen();
+                          }, 
+                          icon: const Icon(Icons.cancel_outlined, size: 35, color: Colors.white,)),
+                    ],
                   )
                 ),
               ],

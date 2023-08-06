@@ -16,6 +16,7 @@ class AppState extends StatelessWidget {
       providers: [
 
         ChangeNotifierProvider(create: ((context) => ProductService()),),
+        ChangeNotifierProvider(create: ((context) => AuthService()),),
 
         ],
       child: const MyApp(),
@@ -31,12 +32,15 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Productos App',
       debugShowCheckedModeBanner: false,
-      initialRoute: HomeScreen.name,
+      scaffoldMessengerKey: NotificationService.messengerKey,
+      initialRoute: CheckAuthScreen.name,
       routes: {
-        LoginScreen.name   :(context) => const LoginScreen(),
-        HomeScreen.name    :(context) => const HomeScreen(),
-        ProductScreen.name :((context) => const ProductScreen()),
-        LoadingScreen.name :((context) => const LoadingScreen())
+        LoginScreen.name    :(context) => const LoginScreen(),
+        CheckAuthScreen.name:(context) => const CheckAuthScreen(),
+        RegisterScreen.name :(context) => const RegisterScreen(),
+        HomeScreen.name     :(context) => const HomeScreen(),
+        ProductScreen.name  :(context) => const ProductScreen(),
+        LoadingScreen.name  :(context) => const LoadingScreen()
       },
       theme: CustomTheme.mainTheme,
     );
